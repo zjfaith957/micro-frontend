@@ -20,6 +20,18 @@ const routes = [
                 name: 'ApplicationManage',
                 component: () => import('@/views/base-manage/ApplicationManage.vue')
             },
+            // ↓业务主体管理
+            {
+                path: '/businessManage',
+                name: 'BusinessManage',
+                component: () => import('@/views/form-manage/BusinessManage.vue')
+            },
+            // ↓数据查询
+            {
+                path: '/dataQuery',
+                name: 'DataQuery',
+                component: () => import('@/views/business-handle/DataQuery.vue')
+            },
             // ↓vue3
             {
                 path: '/vue3',

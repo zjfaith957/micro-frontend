@@ -35,12 +35,12 @@ const state = reactive({
     {
       name:'业务主体管理',
       icon:'star',
-      url:'/sys/user'
+      url:'/businessManage'
     },
     {
       name:'数据查询',
       icon:'send',
-      url:'/home'
+      url:'/dataQuery'
     },
     {
       name:'vue3',

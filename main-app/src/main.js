@@ -1,10 +1,13 @@
 import { createApp } from 'vue'
-import { Quasar } from 'quasar'
+import { Quasar,Dialog,Notify } from 'quasar'
 import router from './router/index'
 import './assets/style.css'
 import App from './App.vue'
 // Import icon libraries
 import '@quasar/extras/material-icons/material-icons.css'
+// ...icon
+import iconSet from 'quasar/icon-set/fontawesome-v5'
+import '@quasar/extras/fontawesome-v5/fontawesome-v5.css'
 // Import Quasar css
 import 'quasar/src/css/index.sass'
 //  主应用引入wujie
@@ -36,5 +39,6 @@ preloadApp({
 
 
 createApp(App).use(router).use(Quasar,{
-    plugins:{}  // import Quasar plugins and add here
+    plugins: { Dialog, Notify }, // import Quasar plugins and add here
+    iconSet: iconSet
 }).use(WujieVue).mount('#app')
