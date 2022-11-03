@@ -247,7 +247,7 @@ const state = reactive({
         label: '公共组合',
         children: [
           {
-            label: 'Food',
+            label: 'Food1',
             icon: 'restaurant_menu'
           },
           {
@@ -255,7 +255,7 @@ const state = reactive({
             icon: 'room_service'
           },
           {
-            label: 'Food',
+            label: 'Food2',
             icon: 'photo'
           }
         ]
