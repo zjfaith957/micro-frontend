@@ -1,5 +1,5 @@
 import { createApp } from 'vue'
-import { Quasar,Dialog } from 'quasar'
+import { Quasar,Dialog,Notify } from 'quasar'
 import router from './router/index'
 import './assets/style.css'
 import App from './App.vue'
@@ -13,6 +13,6 @@ import 'quasar/src/css/index.sass'
 
 
 createApp(App).use(router).use(Quasar, {
-    plugins: {Dialog}, // import Quasar plugins and add here
+    plugins: { Dialog, Notify }, // import Quasar plugins and add here
     iconSet: iconSet
 }).mount('#app')

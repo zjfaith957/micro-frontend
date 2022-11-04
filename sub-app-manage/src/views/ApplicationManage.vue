@@ -14,7 +14,7 @@
                     <q-btn unelevated no-caps color="primary" label="查询" size="md" @click="onQueryClickAction"/>
                 </div>
                 <div class="q-px-md">
-                    <q-btn unelevated outline color="primary" label="高级搜索" size="md" @click="onResetClickAction()"/>
+                    <q-btn unelevated outline color="primary" label="高级搜索" size="md" @click="searchEv()"/>
                 </div>
             </div>
         </div>
@@ -58,7 +58,7 @@
                         <q-icon name="launch" style="color:#1976D2"/>
                         <q-btn
                         unelevated
-                        @click="onEditClickAction(props.row.id)"
+                        @click="add()"
                         color="primary"
                         label="编辑"
                         flat
@@ -67,7 +67,7 @@
                         <q-icon name="visibility" style="color:#1976D2"/>
                         <q-btn
                         unelevated
-                        @click="onFormBuilderClickAction(props.row.id)"
+                        @click="add()"
                         color="primary"
                         label="详情"
                         flat
@@ -88,96 +88,231 @@
             </q-table>
         </div>
     </section>
+    <!-- 高级搜索弹框 -->
+    <q-dialog v-model="searchDialog" persistent>
+      <q-card style="width: 700px; max-width: 80vw;">
+        <q-card-section align="center">
+          <q-toolbar-title>搜索</q-toolbar-title>
+          <q-separator />
+        </q-card-section>
+        <q-card-section class="q-pt-none">
+          <q-form class="q-gutter-md q-pb-md">
+            <div class="row items-baseline content-center justify-start">
+              <div class="col-3 text-right text-subtitle2 q-pr-md">应用英文标识:</div>
+              <q-input
+                  outlined
+                  dense
+                  class="col-7"
+                  v-model="searchForm.name"
+                />
+            </div>
+
+            <div class="row items-baseline content-center justify-start">
+              <div class="col-3 text-right text-subtitle2 q-pr-md">应用名称:</div>
+              <q-input
+                  outlined
+                  dense
+                  class="col-7"
+                  v-model="searchForm.name"
+                />
+            </div>
+            <div class="row items-baseline content-center justify-start">
+              <div class="col-3 text-right text-subtitle2 q-pr-md">应用地址:</div>
+              <q-input
+                  outlined
+                  dense
+                  class="col-7"
+                  v-model="searchForm.name"
+                />
+            </div>
+            <div class="row items-baseline content-center justify-start">
+              <div class="col-3 text-right text-subtitle2 q-pr-md">状态:</div>
+              <q-btn-toggle
+                  v-model="searchForm.status"
+                  toggle-color="primary"
+                  dense
+                  padding="5px 10px"
+                  :options="[
+                    {label: '禁用', value: 'one'},
+                    {label: '启用', value: 'two'},
+                  ]"
+                />
+            </div>
+            <q-card-actions align="center">
+              <q-btn color="primary" label="查询" v-close-popup/>
+              <q-btn outline color="primary" label="重置" v-close-popup/>
+            </q-card-actions>
+          </q-form>
+        </q-card-section>
+      </q-card>
+    </q-dialog>
     <!-- 新增弹框 -->
-    <co-dialog
-      ref="formDialog"
-      title="表单演示"
-      no-backdrop-dismiss
-      card-style="width:800px; max-width:95vw;"
-    >
-      <co-form ref="dialogForm" class="q-px-lg q-my-none row q-col-gutter-x-xl q-col-gutter-y-md">
-          <co-input class="col-12 col-sm-6" label-slot label="输入框第一个" v-model="dialogForm.calcium" >
-            <template v-slot:label>
-              <span style="color: var(--q-color-primary)">输入框第一个</span>
-            </template>
-          </co-input>
-          <co-input class="col-12 col-sm-6" label="输入框第二个" v-model="dialogForm.calcium" :rules="[val => !!val || 'Field is required']"/>
-          <co-select
-            class="col-12 col-sm-6"
-            label-slot
-            label="选择框第一个"
-            use-input
-            hide-selected
-            fill-input
-            v-model="selectModel"
-            no-filter
-            :options="mapOptions"
-            option-value="id"
-            option-label="desc"
-            option-disable="inactive"
-            clearable
-            emit-value
-            map-options
-          >
-            <template v-slot:label>
-              <span style="color: var(--q-color-primary)">输入框第一个</span>
-            </template>
-          </co-select>
-          <co-select
-            class="col-12 col-sm-6"
-            label="选择框第二个"
-            v-model="selectModel"
-            no-filter
-            :options="mapOptions"
-            option-value="id"
-            option-label="desc"
-            option-disable="inactive"
-            emit-value
-            map-options
-          />
-          <co-select
-            class="col-12 col-sm-6"
-            label="选择框第三个"
-            label-slot
-            v-model="selectModel"
-            no-filter
-            use-input
-            hide-selected
-            fill-input
-            :options="mapOptions"
-            option-value="id"
-            option-label="desc"
-            option-disable="inactive"
-            use-chips
-            clearable
-            emit-value
-            map-options
-          >
-            <template v-slot:label>
-              <span style="color: var(--q-color-primary)">Slot 标签</span>
-            </template>
-          </co-select>
-          <co-select
-            class="col-12 col-sm-6"
-            label="选择框第四个"
-            v-model="selectModel"
-            no-filter
-            :options="mapOptions"
-            option-value="id"
-            option-label="desc"
-            option-disable="inactive"
-            use-chips
-            clearable
-            emit-value
-            map-options
-          />
-      </co-form>
-      <q-card-actions class="q-pa-md">
-        <q-space />
-        <co-btn label="取消" flat v-close-popup />
-        <co-btn label="保存"  type="submit" color="primary" @click="$refs.dialogForm.submit()"/>
-      </q-card-actions>
-    </co-dialog>
+    <q-dialog v-model="addDialog" persistent>
+      <q-card style="width: 700px; max-width: 80vw;">
+        <q-card-section align="center">
+          <q-toolbar-title>新增</q-toolbar-title>
+          <q-separator />
+        </q-card-section>
+        <q-card-section class="q-pt-none">
+          <q-form class="q-gutter-md q-pb-md">
+            <div class="row items-baseline content-center justify-start">
+              <div class="col-3 text-right required text-subtitle2 q-pr-md">应用英文标识:</div>
+              <q-input
+                  outlined
+                  dense
+                  class="col-7"
+                  placeholder="请输入序号编码，如productCode"
+                  ref="form.name"
+                  v-model="form.name"
+                  lazy-rules
+                  :rules="[val => (val && val.length > 0) || '不能为空']"
+                />
+            </div>
+
+            <div class="row items-baseline content-center justify-start">
+              <div class="col-3 text-right required text-subtitle2 q-pr-md">应用名称:</div>
+              <q-input
+                  outlined
+                  dense
+                  class="col-7"
+                  placeholder="请输入序号名称，如产品code流水号"
+                  ref="form.name"
+                  v-model="form.name"
+                  lazy-rules
+                  :rules="[val => (val && val.length > 0) || '不能为空']"
+                />
+            </div>
+            <div class="row items-baseline content-center justify-start">
+              <div class="col-3 text-right required text-subtitle2 q-pr-md">应用地址:</div>
+              <q-input
+                  outlined
+                  dense
+                  class="col-7"
+                  placeholder="请输入序号名称，如产品code流水号"
+                  ref="form.name"
+                  v-model="form.name"
+                  lazy-rules
+                  :rules="[val => (val && val.length > 0) || '不能为空']"
+                />
+            </div>
+            <div class="row items-baseline content-center justify-start">
+              <div class="col-3 text-right required text-subtitle2 q-pr-md">通知提醒渠道:</div>
+              <q-input
+                  outlined
+                  dense
+                  readonly
+                  class="col-7"
+                  v-model="form.message"
+                  @click="msgEv"
+                  />
+                </div>
+                <div class="row items-baseline content-center justify-start">
+                  <div class="col-3 text-right required text-subtitle2 q-pr-md">服务请求接口:</div>
+                  <q-input
+                  outlined
+                  dense
+                  readonly 
+                  class="col-7"
+                  v-model="form.apiRes"
+                  @click="msgEv"
+                />
+            </div>
+            <div class="row items-baseline content-center justify-start">
+              <div class="col-3 text-right text-subtitle2 q-pr-md">应用备注:</div>
+              <q-input
+                  outlined
+                  dense
+                  class="col-7"
+                  ref="form.mask"
+                  v-model="form.mask"
+                  type="textarea"
+                />
+            </div>
+
+            <!-- <div class="row items-baseline content-center justify-start">
+              <div class="col-3 text-right required text-subtitle2 q-pr-md">类型:</div>
+              <q-select
+                  dense
+                  class="col-7"
+                  outlined
+                  v-model="form.name"
+                  :options="form.name"
+                  emit-value
+                  map-options
+                />
+            </div> -->
+          </q-form>
+        </q-card-section>
+
+        <q-card-actions align="center">
+          <q-btn color="primary" label="确定" @click="onSubmit"/>
+          <q-btn outline color="primary" label="取消" v-close-popup/>
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
+    <!-- 消息通知提醒弹框 -->
+    <q-dialog v-model="msgDialog" persistent>
+      <q-card style="width: 900px; max-width: 80vw;">
+        <q-card-section align="center">
+          <q-toolbar-title>通知提醒渠道</q-toolbar-title>
+          <q-separator />
+        </q-card-section>
+        <q-card-section align="right" style="padding:0 15px 5px">
+          <q-btn unelevated outline color="primary" size="md" label="新增" @click="msgAdd()"/>
+        </q-card-section>
+        <q-card-section class="q-pt-none">
+          <q-table
+            :rows="msgRows"
+            :columns="msgColumns"
+            row-key="id"
+            hide-bottom
+            flat
+            bordered>
+              <template v-slot:body="props">
+                <q-tr :props="props">
+                    <q-td key="name" :props="props">
+                        <q-input
+                          outlined
+                          dense
+                          disable
+                          v-model="props.row.name"
+                        />
+                    </q-td>
+                    <q-td key="address" :props="props">
+                      <q-input
+                          outlined
+                          dense
+                          v-model="props.row.address"
+                        />
+                    </q-td>
+                    <q-td key="remark" :props="props">
+                      <q-input
+                          outlined
+                          dense
+                          v-model="props.row.remark"
+                        />
+                    </q-td>
+                    <q-td key="dataClickAction" :props="props" v-if="props.row.id>0">
+                        <q-icon name="delete" style="color:#C10015"/>
+                        <q-btn
+                            unelevated
+                            @click="delBtn(props.row,index)"
+                            color="negative"
+                            label="删除"
+                            flat
+                            dense
+                        ></q-btn>
+                    </q-td>
+                </q-tr>
+              </template>
+            </q-table>
+        </q-card-section>
+        <q-card-actions align="center">
+          <q-btn color="primary" label="确定" v-close-popup/>
+          <q-btn outline color="primary" label="取消" v-close-popup/>
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
 </template>
 
 <script setup>
@@ -250,16 +385,84 @@ const state = reactive({
             calcium: '启用',
             iron: '8%'
     }],
-    dialogForm:{
-
-    }
+    searchDialog:false,
+    addDialog:false,
+    form:{
+      name:null,
+      age:null,
+      accept:false,
+      message:'平台消息提醒',
+      apiRes:'表单编辑,部门信息,角色信息,任务处理人,用户信息',
+      mask:''
+    },
+    searchForm:{
+      name:null,
+      age:null,
+      accept:false,
+      status:null
+    },
+    msgDialog:false,
+    msgForm:{
+      name:null,
+      age:null,
+      accept:false,
+      status:null
+    },
+    msgColumns : [
+        {
+            name: 'name',
+            required: true,
+            label: '消息名称',
+            align: 'center',
+            field: row => row.name,
+            format: val => `${val}`,
+        },
+        { name: 'address', align: 'center', label: '消息发送地址', field: 'calories' },
+        { name: 'remark', align: 'center',label: '备注', field: 'fat' },
+        {
+          name: "dataClickAction",
+          align: "center",
+          label: "操作",
+          field: "dataClickAction"
+        },
+    ],
+    msgRows:[{
+        id:0,
+        name: '平台消息提醒',
+        address: 'http://127.0.0.1:8080/autumn-admin/v1/pfnewss/insertMsg',
+        remark:'平台消息提醒'
+      }
+    ],
 })
 
-const { columns,rows,dialogForm } = toRefs(state)
+const { columns,rows,form,searchForm,addDialog,searchDialog,msgDialog,msgColumns,msgRows } = toRefs(state)
 
 // 新增
 const add = () => {
-    formDialog.show()
+  addDialog.value = true
+}
+// 高级查询
+const searchEv = () => {
+  searchDialog.value = true
+}
+// 消息提醒弹框
+const msgEv = () => {
+  msgDialog.value = true
+}
+//  消息提醒弹框-新增
+const msgAdd = () => {
+  console.log('111-------->',msgRows.value.length)
+  const obj = {
+    id:msgRows.value.length,
+    name: '平台消息提醒',
+    address: '',
+    remark:''
+  }
+  msgRows.value.push(obj)
+}
+//  消息提醒弹框-删除
+const delBtn = (rows) => {
+  msgRows.value.splice(rows.id, 1)
 }
 const $q = useQuasar()
 const disabledBtn = () => {
@@ -267,23 +470,53 @@ const disabledBtn = () => {
         title: '提示',
         message: '禁用该列表数据，是否继续?',
         ok: {
-          push: true
+          color: "negative",
+          label:'确定',
+          unelevated: true
         },
         cancel: {
-          push: true,
+          label:'取消',
+          unelevated: true
         },
-        persistent: true
+        persistent: false
       }).onOk(() => {
-        // console.log('>>>> OK')
+        $q.notify({
+          message: '禁用成功!',
+          position:'top'
+        });
       }).onCancel(() => {
         // console.log('>>>> Cancel')
       }).onDismiss(() => {
         // console.log('I am triggered on both OK and Cancel')
       })
 }
+
+//  新增校验确认
+const onSubmit =  () => {
+  if (form.accept !== true) {
+    $q.notify({
+      color: 'red-5',
+      textColor: 'white',
+      icon: 'warning',
+      message: 'You need to accept the license and terms first'
+    })
+  }
+  else {
+    $q.notify({
+      color: 'green-4',
+      textColor: 'white',
+      icon: 'cloud_done',
+      message: 'Submitted'
+    })
+  }
+}
 </script>
 
 <style lang="scss" scoped>
+.required:before {
+  content: "* ";
+  color: red;
+}
 .main-content{
     box-sizing: border-box;
     padding:15px 20px;

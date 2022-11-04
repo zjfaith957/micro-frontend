@@ -178,7 +178,7 @@
             </div>
           </q-form>
           <div>
-            <q-btn unelevated  color="primary" size="md" label="维护表字段" @click="msgEv"/>
+            <q-btn unelevated  color="primary" size="md" label="维护表字段" @click="msgEv" style="margin-right:20px"/>
             <q-btn unelevated outline color="primary" size="md" label="添加子表" @click="msgEv"/>
           </div>
         </q-card-section>
@@ -215,7 +215,6 @@
                       flat
                       dense
                       ></q-btn>
-                      <q-icon name="visibility" style="color:#1976D2"/>
                       <q-icon name="block" style="color:#C10015"/>
                       <q-btn
                           unelevated
